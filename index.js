@@ -1,15 +1,24 @@
 import express from 'express';
-import { connectDB } from './src/connection.js';
+import { fileURLToPath } from 'url';
+import * as path from 'path';
+import adminRoutes from './src/admin/app.js';
 
+// Constants
 const app = express();
-const PORT = 3000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-connectDB();
+app.set('views', path.join(__dirname, 'src', 'admin', 'views'));
+app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
-    res.send('hi');
-});
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
+app.use('/js', express.static(path.join(__dirname, 'public', 'js')));
 
-app.listen(PORT, () => {
-    console.log(`Server is listening at : http://localhost:${PORT}`)
+// Routes
+app.use('/admin', adminRoutes);
+
+app.listen(process.env.PORT, () => {
+    console.log(`Server is listening at : http://localhost:${process.env.PORT}`)
 });
