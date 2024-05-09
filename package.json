@@ -1,0 +1,35 @@
+{
+  "name": "nexahub",
+  "version": "1.0.0",
+  "description": "A Headless CMS like Strapi.js",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env index.js",
+    "dev": "nodemon --env-file=.env index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nexahub",
+    "nexa",
+    "hub",
+    "nexa",
+    "hub",
+    "strapi",
+    "nexa",
+    "js",
+    "nexa",
+    "hub",
+    "js",
+    "headless",
+    "cms",
+    "cms",
+    "react"
+  ],
+  "author": "Naved Uddin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql": "^2.18.1"
+  }
+}
