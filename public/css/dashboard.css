@@ -1,5 +1,6 @@
 .content-container {
-    width: max-content;
+    /* width: max-content; */
+    width: 180px;
     height: 100vh;
     border: 1px solid #ffffff00 !important;
     box-shadow: 2px 2px 2px 2px;
@@ -24,4 +25,8 @@
 .active {
     background-color: #fff;
     color: black;
+}
+
+.capitalize {
+    text-transform: capitalize;
 }
