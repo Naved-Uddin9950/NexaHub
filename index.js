@@ -1,4 +1,5 @@
 import express from 'express';
+import { connectDB } from "./src/connection.js";
 import { fileURLToPath } from 'url';
 import * as path from 'path';
 import adminRoutes from './src/admin/app.js';
@@ -6,6 +7,8 @@ import adminRoutes from './src/admin/app.js';
 // Constants
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+connectDB();
 
 app.set('views', path.join(__dirname, 'src', 'admin', 'views'));
 app.set('view engine', 'ejs');

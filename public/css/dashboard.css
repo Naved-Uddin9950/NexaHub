@@ -1,0 +1,27 @@
+.content-container {
+    width: max-content;
+    height: 100vh;
+    border: 1px solid #ffffff00 !important;
+    box-shadow: 2px 2px 2px 2px;
+    max-width: 180px;
+}
+
+.content-container > div {
+    border-bottom: 1px solid #ffff;
+    cursor: pointer;
+}
+
+.content-container > div:hover {
+    background-color: #fff;
+    color: black;
+}
+
+.btn {
+    box-shadow: 2px 2px 2px;
+    padding: 0.25rem 1.2rem !important;
+}
+
+.active {
+    background-color: #fff;
+    color: black;
+}
