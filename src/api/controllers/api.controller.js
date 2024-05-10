@@ -12,14 +12,69 @@ const queryAsync = (query) => {
     });
 };
 
+// Insert row/data in records_collection table
+const insertRecord = async (name, type) => {
+    try {
+        const insertRecordQuery = `
+            INSERT INTO records_collection (name, type) 
+            VALUES ('${name}', '${type}')
+        `;
+        await connection.query(insertRecordQuery, [name, type]);
+        console.log()
+        console.log('Record inserted successfully');
+    } catch (error) {
+        console.error('Error inserting record:', error);
+    }
+}
+
+// Delete row/data in records_collection table
+const deleteRecord = async (id) => {
+    try {
+        const deleteRecordQuery = `
+            DELETE FROM records_collection WHERE id = ${id}
+        `;
+        await connection.query(deleteRecordQuery, [id]);
+
+        console.log('Record deleted successfully');
+    } catch (error) {
+        console.error('Error deleting record:', error);
+    }
+}
+
 const apiController = {
+    // Gets the collections list
+    async getCollections(req, res) {
+        try {
+            const query = "SELECT * FROM records_collection WHERE type = 'table'";
+            let data = [];
+            connection.query(query, (err, result, fields) => {
+                if (err) {
+                    console.error('Error executing query:', err);
+                    res.status(500).json({ error: 'Error executing query' });
+                    return;
+                }
+                for (let i = 0; i < result.length; i++) {
+                    let name = result[i].name;
+                    data.push(name);
+                    console.log(name);
+                }
+                console.log(data);
+                console.log('Query results:', data);
+                res.status(200).json({ data });
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Error occurred' });
+        }
+    },
+
     // Creates a new table in database
     async createCollection(req, res) {
         const { table, ...columns } = req.body;
 
         const columnDefinitions = Object.values(columns).map(col => {
             let columnDef = `${col.name} ${col.type}`;
-            if (col.default) {
+            if (col.default && col.key != 'primary') {
                 columnDef += ` DEFAULT ${col.default}`;
             }
             if (col.key === 'primary') {
@@ -38,8 +93,8 @@ const apiController = {
 
         try {
             const { results, fields } = await queryAsync(createTableQuery);
-            console.log('Table created successfully');
             res.status(200).json({ message: 'Table created successfully' });
+            insertRecord(table, 'table');
         } catch (err) {
             console.error('Error creating table: ' + err.stack);
             res.status(500).json({ error: 'Error creating table' });
