@@ -6,8 +6,12 @@ const collectionsBtn = document.getElementById('collections');
 const entitiesBtn = document.getElementById('entities');
 
 const dashboard = null;
-const collections = null;
+// const collections = null;
 const entities = null;
+
+const collections = () => {
+    const tableList = async () =>  {}
+}
 
 dashboardBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -16,7 +20,7 @@ dashboardBtn.addEventListener('click', (e) => {
 
 collectionsBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    app.appendChild(collections);
+    collections();
 });
 
 entitiesBtn.addEventListener('click', (e) => {
