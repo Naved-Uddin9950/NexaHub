@@ -5,7 +5,7 @@ const tableList = async () => {
     let res = await fetch('http://localhost:3000/api/collections');
     let text = await res.text();
     let json = await JSON.parse(text);
-    let arr = json.data;
+    let arr = json.collections;
 
     if(arr) {
         sidebar.innerHTML = '';
@@ -15,9 +15,18 @@ const tableList = async () => {
             `;
         }
     }
+
+    for(let i=0; i<arr.length; i++) {
+        const item = document.getElementById(`${arr[i]}_table`);
+        // item.classList.remove('active');
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            // item.classList.add('active');
+        });
+    }
 }
 
-const table = async (id, name) => {
+const table = async (name) => {
     tableHeading.innerText = `${name} collection`;
     
 }
