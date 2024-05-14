@@ -46,7 +46,7 @@ const apiController = {
     async getCollections(req, res) {
         try {
             const query = "SELECT * FROM records_collection WHERE type = 'table'";
-            let data = [];
+            let collections = [];
             connection.query(query, (err, result, fields) => {
                 if (err) {
                     console.error('Error executing query:', err);
@@ -55,12 +55,9 @@ const apiController = {
                 }
                 for (let i = 0; i < result.length; i++) {
                     let name = result[i].name;
-                    data.push(name);
-                    console.log(name);
+                    collections.push(name);
                 }
-                console.log(data);
-                console.log('Query results:', data);
-                res.status(200).json({ data });
+                res.status(200).json({ collections });
             });
         } catch (error) {
             console.error('Error:', error);
@@ -158,6 +155,17 @@ const apiController = {
         } catch (err) {
             console.error('Error updating table: ' + err.stack);
             res.status(500).json({ error: 'Error updating table' });
+        }
+    },
+
+    // Get contents/data of a table by table name
+    async getCollection(req, res) {
+        try {
+            const table = req.params.table;
+            const query = `SELECT * FROM ${table}`;
+            await queryAsync(query);
+        } catch (error) {
+            res.error('Error fetching table contents', error);
         }
     }
 
