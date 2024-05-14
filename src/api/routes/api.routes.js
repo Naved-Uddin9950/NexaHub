@@ -9,8 +9,9 @@ const router = express.Router();
 router.get('/collections', collectionsController.getCollections);
 router.post('/collection', collectionsController.createCollection);
 router.put('/collection', collectionsController.updateCollection);
+router.get('/collection/:table', collectionsController.getCollectionData);
 
 // Entities/Data related routes
-router.get('/collection/:name', entitiesController.getCollection);
+router.get('/collection/entities/:name', entitiesController.getCollection);
 
 export default router;

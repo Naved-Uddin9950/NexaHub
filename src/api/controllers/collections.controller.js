@@ -37,6 +37,41 @@ const collectionsController = {
         }
     },
 
+    // Gets the collection info --- name, entities, entities types etc.
+    async getCollectionData(req, res) {
+        const tableName = req.params.table;
+        try {
+            const query = `
+            SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, EXTRA
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = '${process.env.DB_NAME}' AND TABLE_NAME = '${tableName}'
+        `;
+            // const [rows] = await connection.query(query, [process.env.DB_NAME, tableName]);
+            connection.query(query, (err, result, fields) => {
+                if (err) {
+                    console.error('Error executing query:', err);
+                    res.status(500).json({ error: 'Error executing query' });
+                    return;
+                }
+
+                // Format the metadata
+                const metadata = result.map(row => ({
+                    column_name: row.COLUMN_NAME,
+                    type: row.DATA_TYPE,
+                    is_null: row.IS_NULLABLE,
+                    default: row.COLUMN_DEFAULT,
+                    extra: row.EXTRA
+                }));
+
+                res.status(200).json(metadata);
+            });
+
+        } catch (error) {
+            console.error('Error: ', error);
+            res.status(500).json({ error: 'Error occurred' });
+        }
+    },
+
     // Creates a new collection in database
     async createCollection(req, res) {
         const { table, ...columns } = req.body;
